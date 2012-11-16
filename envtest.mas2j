@@ -1,0 +1,14 @@
+MAS envtest {
+
+	infrastructure: Centralised
+	
+	environment: airspace.AirspaceEnv
+
+	agents:
+		fighter agenteX;
+		target drone;
+
+
+	aslSourcePath:
+		"src/asl";
+}
