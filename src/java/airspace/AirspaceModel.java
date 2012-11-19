@@ -24,11 +24,14 @@ public class AirspaceModel {
 		long change = currentTime - lastTime;
 		long seconds = change / 1000;
 		if (seconds >= 1) {
+			fighter.workControls();
+			logger.info("fighter heading = " + fighter.heading);
 			int thirdAngle = 180 - fighter.heading - 90;
-			double y = (fighter.speed * Math.sin(Math.toRadians(fighter.heading))) / Math.sin(Math.toRadians(90));
-			double x = (fighter.speed * Math.sin(Math.toRadians(thirdAngle))) / Math.sin(Math.toRadians(90));
-			logger.info("x = " + x + ", y = " + y);
-			fighterLocation.x += fighter.speed;
+			double fighterX = (fighter.speed * Math.sin(Math.toRadians(thirdAngle))) / Math.sin(Math.toRadians(90));
+			double fighterY = (fighter.speed * Math.sin(Math.toRadians(fighter.heading))) / Math.sin(Math.toRadians(90));
+
+			fighterLocation.x += fighterX;
+			fighterLocation.y += fighterY;
 			targetLocation.x += target.speed;
 	
 			// ted udelat tolik jednotlivych cyklu kolik casu uplynulo
