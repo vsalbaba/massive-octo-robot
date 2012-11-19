@@ -1,7 +1,7 @@
 // Agent agenteX in project envtest
 
 /* Initial beliefs and rules */
-
+engage_distance(200).
 
 /* Initial goals */
 
