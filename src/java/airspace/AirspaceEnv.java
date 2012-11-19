@@ -23,7 +23,8 @@ public class AirspaceEnv extends Environment {
   @Override
   public void init(String[] args) { 
 	  model = new AirspaceModel();
-	  updatePercepts();
+	  updatePercepts("fighter");
+	  updatePercepts("target");
   }
 
   @Override
@@ -31,36 +32,42 @@ public class AirspaceEnv extends Environment {
     if (action.getFunctor().equals("burn")) {
       addPercept(agName, Literal.parseLiteral("fire"));
     } else if (action.getFunctor().equals("radarsweep")) {
+        updatePercepts(agName);
+    // CHANGING HEADING
     } else if (action.getFunctor().equals("heading")) {
-
     	String newHeading = action.getTerm(0).toString();
-    	model.fighter.intendedHeading = Integer.parseInt(newHeading);
-    	logger.info("new heading " + newHeading);
+    	if (agName == "fighter") {
+    		model.fighter.intendedHeading = Integer.parseInt(newHeading);
+    	} else if (agName == "target") {
+    		model.target.intendedHeading = Integer.parseInt(newHeading);
+    	}
+    // CHANGING SPEED
+    } else if (action.getFunctor().equals("speed")) {
+    	String newSpeed = action.getTerm(0).toString();
+    	if (agName == "fighter") {
+    		model.fighter.intendedSpeed = Integer.parseInt(newSpeed);
+    	} else if (agName == "target") {
+    		model.target.intendedSpeed = Integer.parseInt(newSpeed);
+    	}
     } else {
       logger.info("executing: "+action+", but not implemented!");
     }
-    
-    updatePercepts();
+
+    informAgsEnvironmentChanged();
     try { Thread.sleep(100); } catch (Exception e) {}
     return true;
   }
   
-  private void updatePercepts() {
-      clearPercepts("fighter");
-      clearPercepts("target");
+  private void updatePercepts(String agent) {
+      clearPercepts(agent);
       
 	  model.recomputePositions();
 	  Location fighterLocation = model.fighterLocation;
-      addPercept("fighter", Literal.parseLiteral("location(" + fighterLocation.x + "," + fighterLocation.y + ")"));
-
-      Location targetLocation = model.targetLocation;
-      addPercept("target", Literal.parseLiteral("location(" + targetLocation.x + "," + targetLocation.y + ")"));
+      addPercept(agent, Literal.parseLiteral("location(" + fighterLocation.x + "," + fighterLocation.y + ")"));
+   
+      addPercept(agent, Literal.parseLiteral("heading(" + model.fighter.heading + ")"));
       
-      addPercept("fighter", Literal.parseLiteral("heading(" + model.fighter.heading + ")"));
-      addPercept("target", Literal.parseLiteral("heading(" + model.target.heading + ")"));
-      
-      addPercept("fighter", Literal.parseLiteral("speed(" + model.fighter.speed + ")"));
-      addPercept("target", Literal.parseLiteral("heading(" + model.target.speed + ")"));
+      addPercept(agent, Literal.parseLiteral("speed(" + model.fighter.speed + ")"));
   }
 
 
