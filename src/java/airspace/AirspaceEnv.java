@@ -4,6 +4,7 @@ import jason.asSyntax.*;
 import jason.environment.*;
 import java.util.*;
 import java.util.logging.*;
+import jason.environment.grid.Location;
 
 public class AirspaceEnv extends Environment {
 

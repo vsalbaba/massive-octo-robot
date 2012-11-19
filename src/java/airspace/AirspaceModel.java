@@ -1,6 +1,7 @@
 package airspace;
 
 import java.util.logging.Logger;
+import jason.environment.grid.Location;
 
 public class AirspaceModel {
 	public AircraftModel fighter;
