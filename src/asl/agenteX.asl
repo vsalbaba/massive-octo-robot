@@ -9,8 +9,11 @@ engage_distance(200).
 !drive.
 /* Plans */
 
+
 +!drive <- heading(300).
 
-+!radarsweep <- radarsweep; .wait(500); !radarsweep.
++heading(X) <- .print("heading!").
+
++!radarsweep <- radarsweep; .wait(1000); !radarsweep.
 
 +location(X, Y)[source(percept)] <- .print("position!").
