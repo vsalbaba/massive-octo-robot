@@ -9,13 +9,14 @@ import jason.environment.grid.Location;
 public class AirspaceEnv extends Environment {
 
   private Logger logger = Logger.getLogger("testenv.mas2j."+AirspaceEnv.class.getName());
-   
+  public AirspaceGUI gui;
   AirspaceModel model;
 
   public AirspaceEnv() {
 	  addPercept(Literal.parseLiteral("max_speed(300)"));
 	  addPercept(Literal.parseLiteral("min_speed(120)"));
 	  addPercept(Literal.parseLiteral("max_turn_speed(5)"));
+	  gui = new AirspaceGUI(this);  
   }
   
   /** Called before the MAS execution with the args informed in .mas2j */
